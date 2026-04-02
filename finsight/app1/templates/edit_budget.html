@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Edit Budget</title>
+
+<link rel="stylesheet" href="{% static 'css/edit_budget.css' %}">
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+<div class="form-container">
+
+<h2>Edit Budget</h2>
+
+<form method="POST" action="{% url 'update_budget' budget.id %}" onsubmit="return validateForm()">
+
+{% csrf_token %}
+
+<div class="input-group">
+<label>Title</label>
+<input type="text" id="title" name="title" value="{{budget.title}}">
+</div>
+
+<div class="input-group">
+<label>Amount</label>
+<input type="number" id="amount" name="amount" value="{{budget.amount}}">
+</div>
+
+
+
+<div class="input-group">
+<label>Month</label>
+<input type="month" name="month" id="month" value="{{budget.month}}">
+</div>
+
+<p class="error" id="error"></p>
+
+<div class="buttons">
+
+<button type="submit" class="update-btn">
+Update budget
+</button>
+
+<a href="{% url 'budget_page' %}" class="cancel-btn">
+Cancel
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<script src="{% static 'JS_Files/edit_budget_validation.js' %}"></script>
+
+</body>
+</html>

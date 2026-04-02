@@ -1,0 +1,136 @@
+.goal-container{
+    padding:20px;
+    margin-top:100px;
+    margin-left:250px;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+/* FORM */
+form{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+form input{
+    padding:10px;
+    margin:5px;
+    border-radius:5px;
+    border:1px solid #645e5e;
+}
+
+form button{
+    padding:10px 15px;
+    background:#4CAF50;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+/* GRID */
+.goal-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
+    gap:20px;
+}
+
+/* CARD */
+.goal-card{
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.goal-card:hover{
+    transform:translateY(-5px);
+}
+
+/* PROGRESS */
+.progress-bar{
+    background:#eee;
+    border-radius:10px;
+    overflow:hidden;
+    margin:10px 0;
+}
+
+.progress{
+    background:linear-gradient(90deg,#4CAF50,#00c6ff);
+    padding:5px;
+    color:white;
+    text-align:center;
+}
+
+/* ERROR */
+#error{
+    color:red;
+    display:block;
+}
+.chart-box{
+    width: 180px;
+    height: 180px;
+    margin: 10px auto;
+}
+
+.chart-box canvas{
+    width: 100% !important;
+    height: 100% !important;
+}
+.goal-card h3, .pare{
+    color:black;
+}
+.delete-btn{
+    background:#ff4d4d;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:5px;
+    cursor:pointer;
+    margin-top:10px;
+    transition:0.3s;
+}
+
+.delete-btn:hover{
+    background:#cc0000;
+    transform:scale(1.05);
+}
+.popup{
+    margin-top:100px;
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:#4CAF50;
+    color:white;
+    padding:15px 20px;
+    border-radius:10px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.2);
+    animation:slideIn 0.5s ease;
+}
+
+@keyframes slideIn{
+    from{ transform:translateX(100%); }
+    to{ transform:translateX(0); }
+}
+
+.badge{
+    background:#4CAF50;
+    color:white;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+}
+.avg-saving{
+    background: linear-gradient(90deg,#ff9800,#ff5722);
+    color:white;
+    padding:8px;
+    border-radius:8px;
+    text-align:center;
+    font-size:14px;
+    margin-top:10px;
+    font-weight:bold;
+}

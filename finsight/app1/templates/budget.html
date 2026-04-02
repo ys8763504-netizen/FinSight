@@ -1,0 +1,131 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% block budget %}
+
+<link rel="stylesheet" href="{% static 'css/budget.css' %}">
+
+<div class="budget-container">
+
+<h1>Budget Planner</h1>
+<p class="subtitle">
+Plan your monthly spending and control your finances.
+</p>
+
+<div class="budget-wrapper">
+
+<!-- Budget Form -->
+<div class="budget-form">
+
+<h2>Create Budget</h2>
+
+<form method="POST" action="{% url 'add_budget' %}" onsubmit="return validateBudget()">
+{% csrf_token %}
+
+<div class="input-group">
+<label>Budget Title</label>
+<input type="text" id="title" name="title" placeholder="Example: Monthly Budget" required>
+</div>
+
+
+<div class="input-group">
+<label>Budget Amount</label>
+<input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+</div>
+
+<div class="input-group">
+<label>Month</label>
+<input type="month" id="month" name="month" required>
+</div>
+
+<button type="submit" class="create-btn">
+Create Budget
+</button>
+
+<p id="error" class="error">
+    {% if messages %}
+            {% for message in messages %}
+                <span>{{message}}</span>
+            {% endfor %}
+    {% endif %}
+</p>
+
+</form>
+
+</div>
+
+<!-- Budget Summary -->
+<div class="budget-summary">
+
+<h2>Budget Overview</h2>
+
+<div class="card">
+<h3>Total Budget</h3>
+<p>₹{{total_budget}}</p>
+</div>
+
+<div class="card">
+<h3>Total Expense</h3>
+<p>₹{{total_expense}}</p>
+</div>
+
+<div class="card">
+<h3>Remaining</h3>
+<p>₹{{remaining}}</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- Budget Table -->
+
+<div class="budget-table">
+
+<h2>Your Budgets</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Title</th>
+<th>Amount</th>
+<th>Month</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for budget in budgets %}
+<tr>
+
+<td>{{budget.title}}</td>
+<td>₹{{budget.amount}}</td>
+<td>{{budget.month}}</td>
+
+<td>
+
+<a href="{% url 'edit_budget' budget.id %}" class="edit">
+Edit
+</a>
+
+<a href="{% url 'delete_budget' budget.id %}" onclick="return confirmDelete()" class="delete">
+Delete
+</a>
+
+</td>
+
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="{% static 'JS_Files/budget.js' %}"></script>
+
+{% endblock budget %}

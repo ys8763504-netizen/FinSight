@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Edit Expense</title>
+
+<link rel="stylesheet" href="{% static 'css/edit_expense.css' %}">
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+<div class="form-container">
+
+<h2>Edit Expense</h2>
+
+<form method="POST" action="{% url 'admin_update_expense' expense.id %}" onsubmit="return validateForm()">
+
+{% csrf_token %}
+
+<div class="input-group">
+<label>Title</label>
+<input type="text" id="title" name="title" value="{{expense.title}}">
+</div>
+
+<div class="input-group">
+<label>Amount</label>
+<input type="number" id="amount" name="amount" value="{{expense.amount}}">
+</div>
+
+<div class="input-group">
+<label>Category</label>
+<select name="category" id="category">
+
+<option value="">Select Category</option>
+
+<option {% if expense.category == "Food" %}selected{% endif %}>Food</option>
+<option {% if expense.category == "Transport" %}selected{% endif %}>Transport</option>
+<option {% if expense.category == "Shopping" %}selected{% endif %}>Shopping</option>
+<option {% if expense.category == "Bills" %}selected{% endif %}>Bills</option>
+<option {% if expense.category == "Entertainment" %}selected{% endif %}>Entertainment</option>
+
+</select>
+</div>
+
+<div class="input-group">
+<label>Date</label>
+<input type="date" name="date" id="date" value="{{expense.date}}">
+</div>
+
+<p class="error" id="error"></p>
+
+<div class="buttons">
+
+<button type="submit" class="update-btn">
+Update Expense
+</button>
+
+<a href="{% url 'admin_dashboard' %}" class="cancel-btn">
+Cancel
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<script src="{% static 'JS_Files/edit_validation.js' %}"></script>
+
+</body>
+</html>

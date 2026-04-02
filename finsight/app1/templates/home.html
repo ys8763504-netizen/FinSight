@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silverstrike Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="C:\Users\Ankit\OneDrive\Desktop\FinSight\finsight\app1\static\css\style_home.css">
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="nav-left">
+        <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+        <div class="logo">Silverstrike</div>
+    </div>
+    <div class="profile">YS</div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+    <ul>
+        <li>Home</li>
+        <li>Accounts</li>
+        <li>Transactions</li>
+        <li>Recurrences</li>
+        <li>Categories</li>
+        <li>Budgets</li>
+        <li>Reports</li>
+        <li>Charts</li>
+        <li>Import & Export</li>
+    </ul>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main">
+
+    <div class="cards">
+        <div class="card green">
+            <h3>Current Balance</h3>
+            <h1>53,467,453.00</h1>
+        </div>
+
+        <div class="card orange">
+            <h3>Working Balance</h3>
+            <h1>53,467,453.00</h1>
+        </div>
+
+        <div class="card red">
+            <h3>Outstanding Recurrences</h3>
+            <h1>0</h1>
+        </div>
+
+        <div class="card blue">
+            <h3>End of Month Balance</h3>
+            <h1>53,467,453.00</h1>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="chart-box">
+            <h3>Balance Overview</h3>
+            <canvas id="balanceChart"></canvas>
+        </div>
+
+        <div class="info-box">
+            <h3>August Summary</h3>
+            <table>
+                <tr><th>Income</th><td>200</td></tr>
+                <tr><th>Expenses</th><td style="color:red;">10,000,400</td></tr>
+                <tr><th>Difference</th><td style="color:red;">-10,000,200</td></tr>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function toggleSidebar(){
+    document.getElementById("sidebar").classList.toggle("hide");
+    document.getElementById("main").classList.toggle("full");
+}
+
+/* Chart */
+const ctx = document.getElementById('balanceChart');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Jun 26','Jul 05','Jul 15','Jul 25','Aug 05','Aug 15','Aug 25'],
+        datasets: [{
+            data: [0,0,0,0,0,0,53467453],
+            borderColor:'#0ea5e9',
+            backgroundColor:'rgba(14,165,233,0.2)',
+            fill:true,
+            tension:0.4
+        }]
+    },
+    options:{
+        responsive:true,
+        plugins:{legend:{display:false}}
+    }
+});
+</script>
+
+</body>
+</html>

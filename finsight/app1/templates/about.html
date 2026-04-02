@@ -1,0 +1,129 @@
+{% extends "nav.html" %}
+{% load static %}
+{% block about_content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About FinSight</title>
+
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+</head>
+
+<body>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Smart Finance. Clear Future.</h1>
+        <p>
+            Take full control of your income, expenses, and financial goals with 
+            <strong>FinSight</strong> — your personal smart expense management system.
+        </p>
+
+        <div class="hero-buttons">
+            <form method="post" action="{% url "dashboard_page" %}" >
+                {% csrf_token %}
+            <button class="btn-primary-about" type="submit" >Get Started</button>
+            </form>
+            <button class="btn-secondary-about">Learn More</button>
+        </div>
+    </div>
+
+    <!-- Floating shapes -->
+    <div class="circle one"></div>
+    <div class="circle two"></div>
+    <div class="circle three"></div>
+</section>
+
+<!-- ABOUT -->
+<section class="section">
+    <h2>Who We Are</h2>
+    <p class="about-text">
+        FinSight was created to simplify financial tracking for students, professionals, and startups. 
+        Our platform helps users record daily expenses, monitor income, generate reports, and gain financial clarity. 
+        We believe smart money management leads to financial freedom.
+    </p>
+</section>
+
+<!-- FEATURES -->
+<section class="section">
+    <h2>Our Features</h2>
+    <div class="features">
+        <div class="feature-box">
+            <h3>Expense Tracking</h3>
+            <p>Easily record daily transactions and categorize them efficiently.</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>Smart Analytics</h3>
+            <p>Visual reports and summaries to understand your spending habits.</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>Secure Data</h3>
+            <p>Advanced authentication system ensures your data remains private.</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>Budget Planning</h3>
+            <p>Set financial goals and manage budgets effectively.</p>
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+    <div class="stat">
+        <h3 id="users">0</h3>
+        <p>Active Users</p>
+    </div>
+    <div class="stat">
+        <h3 id="transactions">0</h3>
+        <p>Transactions Recorded</p>
+    </div>
+    <div class="stat">
+        <h3 id="countries">0</h3>
+        <p>Countries Supported</p>
+    </div>
+</section>
+
+<!-- TEAM -->
+<section class="section">
+    <h2>Our Team</h2>
+    <div class="team">
+        <div class="member">
+            <img src="https://i.pravatar.cc/100?img=1">
+            <h4>Yash Solanki</h4>
+            <p>Founder & Developer</p>
+        </div>
+
+        <div class="member">
+            <img src="https://i.pravatar.cc/100?img=5">
+            <h4>Product Designer</h4>
+            <p>UI/UX Specialist</p>
+        </div>
+
+        <div class="member">
+            <img src="https://i.pravatar.cc/100?img=8">
+            <h4>Data Analyst</h4>
+            <p>Financial Insights Expert</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <h2>Start Managing Your Finances Today</h2>
+    <form method="post" action="{% url "dashboard_page" %}" >
+                {% csrf_token %}
+    <button onclick="alert('Welcome to FinSight!')" type="submit">Get Started</button>
+    </form>
+</section>
+
+<script src={% static "JS_Files/about.js" %}></script>
+
+</body>
+</html>
+{% endblock about_content %}

@@ -1,0 +1,119 @@
+{% extends "nav.html" %}
+{% load static %}
+{% block profile_content %}
+
+<div class="profile-wrapper">
+
+    <!-- LEFT PROFILE CARD -->
+    <div class="profile-card">
+
+        <div class="avatar">
+            {{ user.name|slice:":1"|upper }}
+        </div>
+
+        <h2>{{ user.name }}</h2>
+        <p class="email">{{ user.email }}</p>
+
+        <button onclick="openEdit()">Edit Profile</button>
+        <button onclick="openPassword()">Change Password</button>
+         {% if messages %}
+            {% for message in messages %}
+                <p id="pass_error">{{message}}</p>
+            {% endfor %}
+            {% endif %}
+        
+
+    </div>
+
+    <!-- RIGHT DETAILS -->
+    <div class="profile-details">
+
+        <div class="info-box">
+            <span>📱 Mobile</span>
+            <p>{{ user.mobile }}</p>
+        </div>
+
+        <div class="info-box">
+            <span>⚧ Gender</span>
+            <p>{{ user.gender }}</p>
+        </div>
+
+        <div class="info-box">
+            <span>🎂 Date of Birth</span>
+            <p>{{ user.date_of_birth }}</p>
+        </div>
+
+        <div class="info-box">
+            <span>🌍 Country</span>
+            <p>{{ user.country }}</p>
+        </div>
+
+        <div class="info-box">
+            <span>🗓 Joined</span>
+            <p>{{ user.registered_at|date:"d M Y" }}</p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- 🔥 EDIT POPUP -->
+<div class="popup" id="popup">
+    <div class="popup-content">
+
+        <h3>Update Profile</h3>
+
+        <form method="POST" action="{% url 'update_profile' %}" onsubmit="return validateForm()">
+            {% csrf_token %}
+
+            <input type="text" id="name" name="name" value="{{ user.name }}" placeholder="Name">
+            <input type="text" id="mobile" name="mobile" value="{{ user.mobile }}" placeholder="Mobile">
+
+            <select name="gender" id="gender">
+                <option value="Male" {% if user.gender == "Male" %}selected{% endif %}>Male</option>
+                <option value="Female" {% if user.gender == "Female" %}selected{% endif %}>Female</option>
+                <option value="Other" {% if user.gender == "Other" %}selected{% endif %}>Other</option>
+            </select>
+
+            <input type="date" id="dob" name="date_of_birth" value="{{ user.date_of_birth|date:'Y-m-d' }}">
+            <input type="text" id="country" name="country" value="{{ user.country }}" placeholder="Country">
+            <p id="error"></p>
+
+            <div class="btns">
+                <button type="submit" class="save">Save</button>
+                <button type="button" class="cancel" onclick="closeEdit()">Cancel</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+<!-- 🔐 CHANGE PASSWORD POPUP -->
+<div class="popup" id="passwordPopup">
+    <div class="popup-content">
+
+        <h3>Change Password</h3>
+
+        <form method="POST" action="{% url 'change_password' %}" onsubmit="return validatePassword()">
+            {% csrf_token %}
+
+            <input type="password" id="old_password" name="old_password" placeholder="Old Password">
+            <input type="password" id="new_password" name="new_password" placeholder="New Password">
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
+           
+            
+
+            <div class="btns">
+                <button type="submit" class="update">Update</button>
+                <button type="button" class="cancel" onclick="closePassword()">Cancel</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+<script src="{% static "JS_Files/profile.js" %}">
+</script>
+<link rel="stylesheet" href="{% static "css/profile.css" %}">
+
+{% endblock profile_content %}

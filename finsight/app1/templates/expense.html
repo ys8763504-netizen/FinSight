@@ -1,0 +1,88 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% block expense %}
+    <link rel="stylesheet" href={% static "css/style_expense.css" %}>
+    <div class="container">
+
+        <h1>Expense Manager</h1>
+
+        <div class="top-section">
+
+            <div class="form-box">
+                <form method="POST" action="{% url "add_expense" %}">
+                {% csrf_token %}
+                    <input type="text" id="title" name="title" placeholder="Expense Title" required>
+
+                    <input type="number" id="amount" name="amount" placeholder="Amount" required oninput="checkBudget()">
+
+                    <select id="category" name="category" required onchange="checkBudget()">
+                    <option value="">Category</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.name }}">{{ cat.name }}</option>
+                    {% endfor %}
+                    </select>
+
+                    <input type="date" id="date" name="date" required onchange="checkBudget()">
+
+                    <button type="submit" >Add Expense</button>
+                </form>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Search expense..." onkeyup="searchExpense()">
+            </div>
+
+        </div>
+
+        <div class="summary">
+            Total Expense: ₹<span id="total">{{total_expense}}</span>
+        </div>
+        <div class="errors">
+            {% if messages %}
+            {% for message in messages %}
+                <span>{{message}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% if messages %}
+        <div id="popup" class="popup">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+
+<!-- 🔥 Budget Status -->
+<div id="budgetStatus" class="budget-box"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+        <tbody id="expenseList"></tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.title }}</td>
+                <td>{{ expense.amount }}</td>
+                <td>{{ expense.category }}</td>
+                <td>{{ expense.date }}</td>
+                <td>
+                    <a class="edit" href="{% url 'edit_expense' expense.id %}">Edit</a>
+                    <a href="{% url 'delete_expense' expense.id %}" class="delete" onclick="return confirmDelete()">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+    </div>
+
+<script src={% static "JS_Files/script.js" %}></script>
+
+{% endblock expense %}

@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinSight</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href={% static "css/style_index.css" %}>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="logo">FinSight</div>
+
+        <div class="menu-toggle" id="menu-toggle">
+            ☰
+        </div>
+
+        <ul class="nav-links" id="navLinks">
+                <li><a href={% url "index_page" %}>Home</a></li>
+                <li><a href={% url "dashboard_page" %}>Services</a></li>
+                <li><a href="{% url "about_page" %}">About</a></li>
+                <li><a href="{% url "feedback" %}">Contect & FeedBack</a></li>
+                <li><a href={% url "profile_page" %}>Profile</a></li>
+                
+                {% if login %}
+                <li><button type="button" class="btn-primary"><a href={% url "user_logout" %}>LogOut</a></button></li>
+                {% else %}
+                <li><button type="button" class="btn-primary"><a href={% url "login_form" %}>Login</a></button></li>
+                <li><button type="button" class="btn-primary"><a href={% url "regis_form" %}>Register</a></button></li>
+                {% endif %}
+                
+        </ul>
+    </nav>
+    <!-- Contents  -->
+
+    {% block index_content %}{% endblock index_content %}
+    {% block about_content %}{% endblock about_content %}
+    {% block profile_content %}{% endblock profile_content %}
+    {% block dashboard %}{% endblock dashboard %}
+    {% block feedback %}{% endblock feedback %}
+
+    <!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-container">
+
+        <!-- Brand -->
+        <div class="footer-box">
+            <h2 class="footer-logo">FinSight</h2>
+            <p>Smart expense management solution to track, analyze and control your finances efficiently.</p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-box">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href={% url "index_page" %}>Home</a></li>
+                <li><a href={% url "dashboard_page" %}>Services</a></li>
+                <li><a href="{% url "about_page" %}">About</a></li>
+                <li><a href="{% url "feedback" %}">Contect & FeedBack</a></li>
+                <li><a href={% url "profile_page" %}>Profile</a></li>
+            </ul>
+        </div>
+
+        <!-- Services -->
+        <div class="footer-box">
+            <h3>Services</h3>
+            <ul>
+                <li><a href="{% url "budget_page" %}">Budget Planning</a></li>
+                <li><a href="{% url "report_page" %}">Financial Reports</a></li>
+                <li><a href="{% url "analytics_page" %}">Analytics</a></li>
+                <li><a href="{% url "expense_page" %}">Expense Tracking</a></li>
+            </ul>
+        </div>
+
+        <!-- Social Media -->
+        <div class="footer-box">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 FinSight. All Rights Reserved.</p>
+    </div>
+</footer>
+    <!-- FontAwesome CDN for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="{% static "JS_Files/script_index.js" %}"></script>
+</body>
+
+</html>

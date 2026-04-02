@@ -1,0 +1,242 @@
+
+.container{
+background:#1e293b;
+padding:30px;
+width:90%;
+max-width:80%;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+margin-left: 260px;
+margin-top: 120px;
+}
+
+h1{
+text-align:center;
+margin-bottom:20px;
+color:white;
+}
+
+.top-section{
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.form-box{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.form-box input,
+.form-box select{
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+.form-box button{
+background:#4facfe;
+border:none;
+color:white;
+padding:10px 15px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.form-box button:hover{
+background:#009efd;
+}
+
+.search-box input{
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+.summary{
+margin:20px 0;
+font-size:20px;
+font-weight:bold;
+color:white;
+}
+.errors{
+    color:yellow;
+    margin:20px 0;
+    font-size:20px;
+    font-weight:bold;
+}
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px 0%;
+text-align:center;
+border-bottom:1px solid #eee;
+}
+th{
+background:#0f172a;
+}
+
+.edit{
+background:#ffc107;
+color:white;
+padding:8px 14px;
+font-size:14px;
+border-radius: 15%;
+text-decoration: none;
+}
+.edit:hover{
+    background:darkgoldenrod;
+}
+.delete{
+background:#dc3545;
+color:white;
+padding:8px 14px;
+font-size:14px;
+border-radius: 15%;
+text-decoration: none;
+}
+.delete:hover{
+background:darkred;
+}
+.budget-box{
+    margin-top:10px;
+    padding:10px;
+    border-radius:8px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.budget-ok{
+    background:#e6fffa;
+    color:#065f46;
+}
+
+.budget-warning{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.budget-danger{
+    background:#ffe6e6;
+    color:#b30000;
+}
+.popup{
+    margin-top: 100px;
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:#4CAF50;
+    color:white;
+    padding:15px 20px;
+    border-radius:10px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.2);
+    animation:slideIn 0.5s ease;
+}
+
+@keyframes slideIn{
+    from{ transform:translateX(100%); }
+    to{ transform:translateX(0); }
+}
+
+.badge{
+    background:#4CAF50;
+    color:white;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+}
+@media(max-width:768px){
+
+.top-section{
+flex-direction:column;
+}
+
+.form-box{
+flex-direction:column;
+}
+
+}
+@media (max-width: 992px){
+
+    .top-section{
+        flex-direction:column;
+    }
+
+    .form-box,
+    .search-box{
+        width:100%;
+    }
+}
+
+/* ========================= */
+/* 📱 MOBILE (<= 768px) */
+/* ========================= */
+
+@media (max-width: 768px){
+
+    h1{
+        font-size:22px;
+        text-align:center;
+    }
+
+    .container{
+        padding:15px;
+    }
+
+    .summary{
+        text-align:center;
+        font-size:18px;
+    }
+
+    /* Make table scrollable */
+    table{
+        display:block;
+        overflow-x:auto;
+        white-space:nowrap;
+    }
+
+    th, td{
+        font-size:14px;
+        padding:8px;
+    }
+
+    .form-box input,
+    .form-box select,
+    .form-box button{
+        font-size:14px;
+    }
+}
+
+/* ========================= */
+/* 📱 SMALL MOBILE (<= 480px) */
+/* ========================= */
+
+@media (max-width: 480px){
+
+    h1{
+        font-size:18px;
+    }
+
+    .form-box input,
+    .form-box select{
+        padding:8px;
+    }
+
+    .form-box button{
+        padding:10px;
+        font-size:14px;
+    }
+
+    .summary{
+        font-size:16px;
+    }
+
+    .errors span{
+        font-size:12px;
+    }
+}

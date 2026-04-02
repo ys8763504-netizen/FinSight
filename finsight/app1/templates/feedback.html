@@ -1,0 +1,92 @@
+{% extends "nav.html" %}
+{% load static %}
+{% block feedback %}
+
+<link rel="stylesheet" href="{% static "css/feedback.css" %}">
+
+<div class="main">
+
+    <!-- CONTACT INFO -->
+    <div class="contact-info">
+        <h2>📞 Contact FinSight</h2>
+        <p>Email: finsight.support@gmail.com | Phone: +91 9876543210</p>
+        <p>Address: Ahmedabad, Gujarat, India</p>
+    </div>
+
+    <div class="grid">
+
+        <!-- FEEDBACK FORM -->
+        <div class="container">
+            <h2>📩 Contact & Feedback</h2>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="msg">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" action="{% url 'add_feedback' %}" onsubmit="return validateForm()">
+                {% csrf_token %}
+
+                <input type="text" id="name" name="name" placeholder="Your Name">
+                <input type="email" id="email" name="email" placeholder="Your Email">
+
+                <select id="type" name="type">
+                    <option value="">Select Type</option>
+                    <option value="query">Query</option>
+                    <option value="feedback">Feedback</option>
+                    <option value="complaint">Complaint</option>
+                </select>
+
+                <textarea id="message" name="message" rows="4" placeholder="Your Message"></textarea>
+                <!-- ⭐ RATING -->
+                <div class="star-rating">
+                    <label>Give Us Rating : <label>
+                    <input type="hidden" name="rating" id="rating" value="0">
+
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+
+                <span id="rating_error" style="color:red;"></span>
+
+                <button type="submit">Send Message</button>
+                <span id="error" style="color:red;"></span>
+            </form>
+        </div>
+
+        <!-- GOOGLE MAP -->
+        <div class="map">
+            <iframe 
+                src="https://maps.google.com/maps?q=Ahmedabad&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                width="100%" 
+                height="100%" 
+                style="border:0;">
+            </iframe>
+        </div>
+
+    </div>
+    
+    <div class="feedback-list">
+        <h2>⭐ Recent Feedbacks</h2>
+
+        {% for fb in feedbacks %}
+        <div class="feedback-card">
+            <h4>{{ fb.name }} ({{ fb.type }})</h4>
+            <p>{{ fb.message }}</p>
+            <span>Rating: {{ fb.rating }} ⭐</span>
+        </div>
+        {% empty %}
+        <p>No feedback yet</p>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="{% static "JS_Files/feedback.js" %}">
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "nav.html" %}
+{% load static %}
+{% block dashboard %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FinSight Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style_dashboard.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+    <ul>
+        <li class="{% if request.resolver_match.url_name == 'dashboard_page' %}active{% endif %}"><a href={% url "dashboard_page" %}>Dashboard</a></li>
+        <li class="{% if request.resolver_match.url_name == 'expense_page' %}active{% endif %}"><a href={% url "expense_page" %}>Expenses</a></li>
+        <li class="{% if request.resolver_match.url_name == 'budget_page' %}active{% endif %}"><a href={% url "budget_page" %}>Budgets</a></li>
+        <li class="{% if request.resolver_match.url_name == 'report_page' %}active{% endif %}"><a href="{% url "report_page" %}">Reports</a></li>
+        <li class="{% if request.resolver_match.url_name == 'analytics_page' %}active{% endif %}"><a href="{% url "analytics_page" %}">Analytics</a></li>
+        <li class="{% if request.resolver_match.url_name == 'add_category' %}active{% endif %}"><a href="{% url "add_category" %}">Add Category</a></li>
+        <li class="{% if request.resolver_match.url_name == 'goal_page' %}active{% endif %}"><a href="{% url "goal_page" %}">Create Goals</a></li>
+        
+    </ul>
+</div>
+
+    {% block dash %}{% endblock dash %}
+    {% block expense %}{% endblock expense %}
+    {% block budget %}{% endblock budget %}
+    {% block report %}{% endblock report %}
+    {% block analytics %}{% endblock analytics %}
+    {% block goal %}{% endblock goal %}
+    
+</div>
+<div class="menu-btn" id="menuBtn">
+    <span>Services</span>
+</div>
+</body>
+
+
+
+</html>
+{% endblock dashboard %}

@@ -1,0 +1,103 @@
+{% extends "nav.html" %}
+{% load static %}
+{% block index_content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinSight - Smart Expense Management</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href={% static "css/style_index.css" %}>
+</head>
+<body>
+
+<section class="hero">
+    <div class="hero-text">
+        <h1>Take Control of Your Expenses with Confidence</h1>
+        <p>FinSight helps you track, analyze, and optimize your finances with powerful insights and real-time analytics.</p>
+        <button class="btn-primary"><a href="{% url "dashboard_page" %}">Get Started Free</a></button>
+    </div>
+
+    <div class="hero-img">
+        
+    </div>
+</section>
+
+<section class="features" id="features">
+    <h2>Why Choose FinSight?</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>Smart Analytics</h3>
+            <p>AI-powered insights to understand your spending habits.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Real-Time Tracking</h3>
+            <p>Monitor transactions instantly and stay updated.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Budget Planning</h3>
+            <p>Set monthly budgets and reach financial goals.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Secure & Private</h3>
+            <p>Bank-level encryption ensures your data is safe.</p>
+        </div>
+    </div>
+</section>
+
+<section class="dashboard-preview" id="dashboard">
+    
+        <div class="dashboard-image"></div>
+    <div class="preview-text">
+        <h2>Powerful Dashboard</h2>
+        <p>Visualize income, expenses, trends, and future forecasts in one beautiful dashboard designed for clarity and performance.</p>
+    </div>
+    
+    </div>
+</section>
+
+<section class="pricing" id="pricing">
+    <h2>Simple Pricing</h2>
+    <div class="pricing-cards">
+        <div class="price-card">
+            <h3>Basic</h3>
+            <div class="price">Free</div>
+            <p>Track expenses and basic analytics.</p>
+        </div>
+        <div class="price-card">
+            <h3>Pro</h3>
+            <div class="price">$9/mo</div>
+            <p>Advanced reports and unlimited budgets.</p>
+        </div>
+        <div class="price-card">
+            <h3>Enterprise</h3>
+            <div class="price">$29/mo</div>
+            <p>Full financial control for teams.</p>
+        </div>
+    </div>
+</section>
+
+<section class="testimonial">
+    <div class="testimonial-box">
+        "FinSight completely transformed how I manage my money. Clean design and powerful insights!"
+    </div>
+</section>
+
+<section class="cta">
+    <h2>Ready to Master Your Finances?</h2>
+    <button class="btn-primary"><a href="{% url "dashboard_page" %}">Start Now</a></button>
+</section>
+
+
+<!-- FontAwesome CDN for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</body>
+<script src="{% static "JS_Files/script_index.js" %}"></script>
+{% if loged_out %}
+<script >alert('{{loged_out}}')</script>
+{% endif %}
+</html>
+{% endblock index_content %}

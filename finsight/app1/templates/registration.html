@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - Silverstrike</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    padding:20px;
+}
+
+.register-container{
+    width:420px;
+    padding:35px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.2);
+    box-shadow:0 15px 35px rgba(0,0,0,0.2);
+    color:white;
+    animation:fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(30px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+.register-container h2{
+    text-align:center;
+    margin-bottom:25px;
+    font-weight:600;
+}
+
+.input-group{
+    position:relative;
+    margin-bottom:20px;
+}
+
+.input-group input,
+.input-group select{
+    width:100%;
+    padding:12px 40px 12px 12px;
+    border:none;
+    outline:none;
+    border-radius:8px;
+    background:rgba(255,255,255,0.2);
+    color:white;
+    font-size:14px;
+}
+
+.input-group label{
+    position:absolute;
+    left:12px;
+    top:12px;
+    font-size:14px;
+    transition:0.3s;
+    pointer-events:none;
+    color:#ddd;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label{
+    top:-18px;
+    left:5px;
+    font-size:14px;
+    color:#fff;
+}
+
+/* Gender */
+.gender-group{
+    display:flex;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.gender-group label{
+    font-size:14px;
+    cursor:pointer;
+}
+
+/* Checkbox */
+.checkbox{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+.checkbox input{
+    accent-color:white;
+}
+
+/* Button */
+.register-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:white;
+    color:#764ba2;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.register-btn:hover{
+    background:#ddd;
+}
+
+.footer{
+    text-align:center;
+    margin-top:15px;
+    font-size:13px;
+}
+
+.footer a{
+    color:white;
+    text-decoration:none;
+    font-weight:500;
+}
+
+.error{
+    font-size:12px;
+    color:#ffb3b3;
+    margin-top:5px;
+}
+</style>
+</head>
+<body>
+
+<div class="register-container">
+    <h2>Create Account </h2>
+
+    <form id="registerForm" method='POST'>
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="text" id="name" name="name" placeholder=" " required>
+            <label>Full Name</label>
+            <div class="error" id="nameError"></div>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="mobile" name="mobile" placeholder=" " maxlength="10" required>
+            <label>Mobile Number</label>
+            <div class="error" id="mobileError"></div>
+        </div>
+
+        <div class="input-group">
+            <input type="email" id="email" name="email" placeholder=" " required>
+            <label>Email</label>
+            {% if already %}
+            <div class="error" id="emailError">{{already}}</div>
+            {% endif %}
+        </div>
+
+        
+        <div class="input-group">
+            <input type="password" id="password" name="password" placeholder=" " required>
+            <label>Password</label>
+            <div class="error" id="passwordError"></div>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="confirmPassword" placeholder=" " required>
+            <label>Confirm Password</label>
+            <div class="error" id="confirmError"></div>
+        </div>
+        <div class="gender-container">
+            <span class="gender-label">Gender</span>
+
+            <div class="gender-group">
+                <label>
+                    <input type="radio" name="gender" value="Male">
+                    <span>Male</span>
+                </label>
+
+                <label>
+                    <input type="radio" name="gender" value="Female">
+                    <span>Female</span>
+                </label>
+
+                <label>
+                    <input type="radio" name="gender" value="Other">
+                    <span>Other</span>
+                </label>
+            </div>
+
+            <div class="error" id="genderError"></div>
+        </div>
+
+        <div class="input-group">
+            <input type="date" id="dob" name="dob" required>
+            <label style="top:-18px; font-size:14px;">Date of Birth</label>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="country" name="country" placeholder=" " required>
+            <label>Country</label>
+            <div class="error" id="countryError"></div>
+        </div>
+
+        <div class="checkbox">
+            <input type="checkbox" id="terms" name="terms" value="True">
+            <label for="terms">I agree to Terms & Conditions</label>
+        </div>
+        <button type="submit" class="register-btn">Register</button>
+
+    </form>
+
+    <div class="footer">
+        Already have an account? <a href={% url "login_form" %}>Login</a>
+    </div>
+</div>
+
+<script>
+document.getElementById("registerForm").addEventListener("submit", function(e){
+    
+
+    let valid = true;
+
+    const name = document.getElementById("name");
+    const mobile = document.getElementById("mobile");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const terms = document.getElementById("terms");
+
+    document.querySelectorAll(".error").forEach(e=>e.innerText="");
+
+    if(name.value.length < 3){
+        document.getElementById("nameError").innerText="Enter valid name";
+        valid = false;
+    }
+
+    if(!/^[0-9]{10}$/.test(mobile.value)){
+        document.getElementById("mobileError").innerText="Enter valid 10-digit mobile number";
+        valid = false;
+    }
+
+    if(!email.value.includes("@")){
+        document.getElementById("emailError").innerText="Enter valid email";
+        valid = false;
+    }
+
+    if(password.value.length < 6){
+        document.getElementById("passwordError").innerText="Password must be at least 6 characters";
+        valid = false;
+    }
+
+    if(password.value !== confirmPassword.value){
+        document.getElementById("confirmError").innerText="Passwords do not match";
+        valid = false;
+    }
+
+    if(!terms.checked){
+        alert("Please accept Terms & Conditions");
+        valid = false;
+    }
+    if(!valid){
+        e.preventDefault();
+    }
+});
+</script>
+
+</body>
+</html>

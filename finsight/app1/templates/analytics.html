@@ -1,0 +1,257 @@
+{% extends "dashboard.html" %}
+{% load static %}
+
+{% block analytics %}
+
+<link rel="stylesheet" href="{% static 'css/analytics.css' %}">
+
+<div class="analytics-container">
+
+<h1>Financial Analytics</h1>
+<p class="subtitle">Smart insights into your spending</p>
+
+
+<!-- STAT CARDS -->
+
+<div class="stats">
+
+<div class="stat-card">
+<h3>Total Expense</h3>
+<p class="counter" data-target="{{ total_expense }}">0</p>
+</div>
+
+<div class="stat-card">
+<h3>Total Budget</h3>
+<p class="counter" data-target="{{ total_budget }}">0</p>
+</div>
+
+<div class="stat-card">
+<h3>Total Transactions</h3>
+<p class="counter" data-target="{{ total_transactions }}">0</p>
+</div>
+
+<div class="stat-card highlight">
+<h3>Top Category</h3>
+<p>{{ top_category.category }}</p>
+<span>₹{{ top_category.total }}</span>
+</div>
+
+</div>
+
+
+<!-- CHART GRID -->
+
+<div class="charts">
+
+<div class="chart-box full-width">
+<h2>Expense by Category</h2>
+<canvas id="categoryChart"></canvas>
+</div>
+
+<div class="chart-box full-width">
+<h2>Monthly Expenses</h2>
+<canvas id="monthlyChart"></canvas>
+</div>
+
+<div class="chart-box full-width">
+<h2>Budget vs Expense</h2>
+<canvas id="budgetChart"></canvas>
+</div>
+
+<div class="chart-box full-width">
+<h2>Spending Trend</h2>
+<canvas id="trendChart"></canvas>
+</div>
+
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script >
+    const categoryData = {{ category_data|safe }}
+const monthlyData = {{ monthly_data|safe }}
+
+let categories=[]
+let categoryAmount=[]
+
+categoryData.forEach(item=>{
+categories.push(item.category)
+categoryAmount.push(item.total)
+})
+
+let months=[]
+let monthlyAmount=[]
+
+monthlyData.forEach(item=>{
+months.push(item.month)
+monthlyAmount.push(item.total)
+})
+
+
+// CATEGORY PIE
+
+new Chart(document.getElementById("categoryChart"),{
+
+type:"pie",
+
+data:{
+labels:categories,
+datasets:[{
+data:categoryAmount,
+backgroundColor:[
+"#FF6384","#36A2EB","#FFCE56","#4CAF50","#9C27B0"
+]
+}]
+},
+
+options:{
+animation:{duration:2000}
+}
+
+})
+
+
+// MONTHLY BAR
+
+new Chart(document.getElementById("monthlyChart"),{
+
+type:"bar",
+
+data:{
+labels:months,
+datasets:[{
+label:"Monthly Expense",
+data:monthlyAmount,
+backgroundColor:"#36A2EB"
+}]
+},
+
+options:{
+animation:{duration:2000}
+}
+
+})
+
+
+// BUDGET CHART
+
+new Chart(document.getElementById("budgetChart"),{
+
+type:"doughnut",
+
+data:{
+labels:["Expense","Remaining"],
+datasets:[{
+data:[{{ total_expense }}, {{ total_budget }} - {{ total_expense }}],
+backgroundColor:["#FF6384","#4CAF50"]
+}]
+},
+
+options:{
+animation:{duration:2000}
+}
+
+})
+
+
+// TREND LINE
+
+new Chart(document.getElementById("trendChart"),{
+
+type:"line",
+
+data:{
+labels:months,
+datasets:[{
+label:"Expense Trend",
+data:monthlyAmount,
+borderColor:"#ff6b6b",
+fill:false,
+tension:0.4
+}]
+},
+
+options:{
+animation:{duration:2000}
+}
+
+})
+
+
+
+// ANIMATED COUNTERS
+
+const counters = document.querySelectorAll(".counter")
+
+counters.forEach(counter=>{
+
+counter.innerText="0"
+
+const updateCounter = ()=>{
+
+const target = +counter.getAttribute("data-target")
+
+const c = +counter.innerText
+
+const increment = target/100
+
+if(c < target){
+
+counter.innerText = `${Math.ceil(c + increment)}`
+
+setTimeout(updateCounter,20)
+
+}else{
+
+counter.innerText = target
+
+}
+
+}
+
+updateCounter()
+
+})
+
+function toggleChat(){
+
+let chat = document.getElementById("aiChat")
+
+if(chat.style.display === "flex"){
+chat.style.display = "none"
+}
+else{
+chat.style.display = "flex"
+}
+
+}
+
+function sendMessage(){
+
+let input = document.getElementById("userInput")
+let message = input.value
+
+if(message.trim() === "") return
+
+let chatBody = document.getElementById("chatBody")
+
+chatBody.innerHTML += `<div class="user-msg">${message}</div>`
+
+fetch(`/finsight-ai/?message=${encodeURIComponent(message)}`)
+
+.then(res=>res.json())
+
+.then(data=>{
+
+chatBody.innerHTML += `<div class="bot-msg">${data.reply}</div>`
+
+chatBody.scrollTop = chatBody.scrollHeight
+
+})
+
+input.value=""
+
+}
+</script>
+
+{% endblock %}

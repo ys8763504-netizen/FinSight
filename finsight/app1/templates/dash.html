@@ -1,0 +1,94 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% block dash %}
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <h1>Dashboard</h1>
+        <button class="btn-primary"><a href="{% url "expense_page" %}">+ Add Expense</a></button>
+    </div>
+
+    <!-- SUMMARY CARDS -->
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Expenses</h3>
+            <p>₹ {{ total_expense }}</p>
+        </div>
+
+        <div class="card">
+            <h3>This Month</h3>
+            <p>₹ {{ this_month_expense }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Remaining Budget</h3>
+            <p>₹ {{ remaining_budget }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Financial Health</h3>
+            {% if remaining_budget >= 0 %}
+                <p>Good 👍</p>
+            {% else %}
+                <p>Bad 👎</p>
+            {% endif %}
+            
+        </div>
+
+    </div>
+
+    <!-- CHART + RECENT -->
+    <div class="dashboard-grid">
+
+        <!-- CHART -->
+        <div class="chart-box">
+            <h3>Expense Breakdown</h3>
+            <canvas id="expenseChart"></canvas>
+        </div>
+
+        <!-- RECENT TRANSACTIONS -->
+        <div class="recent-box">
+            <h3>Recent Transactions</h3>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                </tr>
+                {% for exp in recent_expenses %}
+                <tr>
+                    <td>{{ exp.date }}</td>
+                    <td>{{ exp.category }}</td>
+                    <td>₹ {{ exp.amount }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const labels = {{ labels|safe }};
+const data = {{ data|safe }};
+ 
+const ctx = document.getElementById('expenseChart');
+
+new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: data
+        }]
+    }
+});
+</script>
+
+
+{% endblock dash %}

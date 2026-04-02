@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel - FinSight</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    display:flex;
+    background:#f1f5f9;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:240px;
+    background:#0f172a;
+    color:white;
+    height:100vh;
+    padding:20px;
+    position:fixed;
+}
+
+.sidebar h2{
+    margin-bottom:20px;
+}
+
+.sidebar button{
+    width:100%;
+    padding:10px;
+    margin-bottom:10px;
+    background:#1e293b;
+    border:none;
+    color:white;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+/* MAIN */
+.main{
+    margin-left:240px;
+    padding:20px;
+    width:100%;
+}
+
+/* TABLE */
+.table-box{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:10px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+th{
+    background:#e2e8f0;
+}
+
+/* BUTTONS */
+.edit{
+    color:blue;
+}
+.delete{
+    color:red;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .sidebar{
+        position:absolute;
+        left:-100%;
+        transition:0.3s;
+    }
+
+    .sidebar.active{
+        left:0;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-btn{
+        display:block;
+        position:fixed;
+        top:10px;
+        left:10px;
+        background:#3b82f6;
+        color:white;
+        padding:10px;
+        border:none;
+        z-index:1000;
+    }
+}
+
+.menu-btn{
+    display:none;
+}
+.edit{
+    color:#2563eb;
+    font-weight:bold;
+}
+
+.delete{
+    color:#dc2626;
+    font-weight:bold;
+}
+</style>
+
+</head>
+
+<body>
+{% if messages %}
+    {% for message in messages %}
+        <p style="color:green; text-align:center;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+<button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+<div class="sidebar" id="sidebar">
+    <h2>Admin Panel</h2>
+    <button onclick="showSection('users')">Users</button>
+    <button onclick="showSection('expenses')">Expenses</button>
+    <button onclick="showSection('budgets')">Budgets</button>
+    <button onclick="showSection('category')">Category</button>
+    <button onclick="showSection('feedback')">Feedback</button>
+    <a href="{% url 'admin_logout' %}"><button>Logout</button></a>
+</div>
+
+<div class="main">
+
+<!-- USERS -->
+<div id="users" class="table-box">
+<h2>Users</h2>
+<table>
+<tr><th>Name</th><th>Email</th><th>Action</th></tr>
+{% for u in users %}
+<tr>
+<td>{{ u.name }}</td>
+<td>{{ u.email }}</td>
+<td>
+<a href="{% url 'edit_user' u.id %}" class="edit">Edit</a> |
+<a href="{% url 'delete_user' u.id %}" class="delete" onclick="return confirmDelete()">Delete</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<!-- EXPENSES -->
+<div id="expenses" class="table-box" style="display:none;">
+<h2>Expenses</h2>
+<table>
+<tr><th>User</th><th>Title</th><th>Amount</th><th>Date</th><th>Action</th></tr>
+{% for e in expenses %}
+<tr>
+<td>{{ e.user_id }}</td>
+<td>{{ e.title }}</td>
+<td>{{ e.amount }}</td>
+<td>{{ e.date }}</td>
+<td>
+<a href="{% url 'admin_edit_expense' e.id %}" class="edit">Edit</a> |
+<a href="{% url 'admin_delete_expense' e.id %}" class="delete" onclick="return confirmDelete()">Delete</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<!-- BUDGETS -->
+<div id="budgets" class="table-box" style="display:none;">
+<h2>Budgets</h2>
+<table>
+<tr><th>User</th><th>Title</th><th>Amount</th><th>Month</th><th>Action</th></tr>
+{% for b in budgets %}
+<tr>
+<td>{{ b.user_id }}</td>
+<td>{{ b.title }}</td>
+<td>{{ b.amount }}</td>
+<td>{{ b.month }}</td>
+<td>
+<a href="{% url 'admin_edit_budget' b.id %}" class="edit">Edit</a> |
+<a href="{% url 'admin_delete_budget' b.id %}" class="delete" onclick="return confirmDelete()">Delete</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<!-- FEEDBACK -->
+<div id="feedback" class="table-box" style="display:none;">
+<h2>Feedback</h2>
+<table>
+<tr><th>Name</th><th>Email</th><th>Message</th><th>Action</th></tr>
+{% for f in feedbacks %}
+<tr>
+<td>{{ f.name }}</td> 
+<td>{{ f.email }}</td>
+<td>{{ f.message }}</td>
+<td>
+<a href="{% url 'delete_feedback' f.id %}" class="delete" onclick="return confirmDelete()">Delete</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<!-- Category -->
+<div id="category" class="table-box" style="display:none;">
+<h2>Category</h2>
+<table>
+<tr><th>User</th><th>Category</th><th>Action</th></tr>
+{% for c in category %}
+<tr>
+<td>{{ c.user }}</td>
+<td>{{ c.name }}</td>
+<td><a href="{% url 'admin_delete_category' c.id %}" class="delete" onclick="return confirmDelete()">Delete</a></td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+</div>
+
+<script>
+function showSection(section){
+    document.getElementById('users').style.display='none';
+    document.getElementById('expenses').style.display='none';
+    document.getElementById('budgets').style.display='none';
+    document.getElementById('feedback').style.display='none';
+    document.getElementById('category').style.display='none';
+
+    document.getElementById(section).style.display='block';
+}
+
+function toggleSidebar(){
+    document.getElementById('sidebar').classList.toggle('active');
+}
+function confirmDelete(){
+    return confirm("Are you sure you want to delete this ?");
+}
+</script>
+
+</body>
+</html>

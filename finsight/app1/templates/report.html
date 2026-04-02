@@ -1,0 +1,195 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% block report %}
+
+<link rel="stylesheet" href="{% static 'css/report.css' %}">
+
+<div class="report-container">
+
+<h1>Financial Reports</h1>
+<p class="subtitle">Track and analyze your spending history</p>
+
+<!-- SUMMARY CARDS -->
+
+<div class="summary-cards">
+
+<div class="card">
+<h3>Total Expense</h3>
+<p>₹{{ total_expense }}</p>
+</div>
+
+<div class="card">
+<h3>Total Budget</h3>
+<p>₹{{ total_budget }}</p>
+</div>
+
+<div class="card">
+<h3>Remaining Balance</h3>
+<p>₹{{ remaining }}</p>
+</div>
+
+<div class="card">
+<h3>Total Transactions</h3>
+<p>{{ total_transactions }}</p>
+</div>
+
+</div>
+
+
+<!-- CATEGORY REPORT TABLE -->
+
+<div class="report-table">
+
+<h2>Category Expense Report</h2>
+<div class="download-section">
+
+<select id="category_format">
+<option value="">Select Format</option>
+<option value="csv">CSV</option>
+<option value="excel">Excel</option>
+<option value="pdf">PDF</option>
+<option value="png">PNG</option>
+</select>
+
+<button onclick="downloadTable('categoryTable','category_format')">
+Download
+</button>
+
+</div>
+
+
+<table id="categoryTable">
+
+<thead>
+<tr>
+<th>Category</th>
+<th>Total Spent</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for item in category_report %}
+
+<tr>
+<td>{{ item.category }}</td>
+<td>₹{{ item.total }}</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- MONTHLY REPORT -->
+
+<div class="report-table">
+<h2>Monthly Expense Report</h2>
+<div class="download-section">
+<select id="monthly_format">
+<option value="">Select Format</option>
+<option value="csv">CSV</option>
+<option value="excel">Excel</option>
+<option value="pdf">PDF</option>
+<option value="png">PNG</option>
+</select>
+
+<button onclick="downloadTable('monthlyTable','monthly_format')">
+Download
+</button>
+</div>
+<table id="monthlyTable">
+<thead>
+<tr>
+<th>Month</th>
+<th>Total Expense</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for item in monthly_report %}
+
+<tr>
+<td>{{ item.month }}</td>
+<td>₹{{ item.total }}</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="report-table">
+<h2>Budget Report</h2>
+<div class="download-section">
+<select id="budget_format">
+<option value="">Select Format</option>
+<option value="csv">CSV</option>
+<option value="excel">Excel</option>
+<option value="pdf">PDF</option>
+<option value="png">PNG</option>
+</select>
+
+<button onclick="downloadTable('budgetTable','budget_format')">
+Download
+</button>
+</div>
+<table id="budgetTable">
+<thead>
+<tr>
+<th>Title</th>
+<th>Budget Amount</th>
+<th>Month</th>
+<th>Spent</th>
+<th>Remaining</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for item in budget_report %}
+
+<tr>
+
+<td>{{ item.title }}</td>
+<td>₹{{ item.amount }}</td>
+<td>{{ item.month }}</td>
+<td>₹{{ item.spent }}</td>
+<td>₹{{ item.remaining }}</td>
+
+<td>
+{% if item.remaining < 0 %}
+<span class="danger">Over Budget</span>
+{% else %}
+<span class="safe">Within Budget</span>
+{% endif %}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+</div>
+
+<script src="{% static 'JS_Files/report.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+{% endblock report %}

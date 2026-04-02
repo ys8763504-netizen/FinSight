@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Silverstrike</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:'Poppins',sans-serif;
+    }
+
+    body{
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:linear-gradient(135deg,#667eea,#764ba2);
+        overflow:hidden;
+    }
+
+    /* Glass Container */
+    .login-container{
+        width:380px;
+        padding:40px;
+        border-radius:20px;
+        background:rgba(255,255,255,0.1);
+        backdrop-filter:blur(20px);
+        border:1px solid rgba(255,255,255,0.2);
+        box-shadow:0 15px 35px rgba(0,0,0,0.2);
+        color:white;
+        animation:fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn{
+        from{opacity:0; transform:translateY(30px);}
+        to{opacity:1; transform:translateY(0);}
+    }
+
+    .login-container h2{
+        text-align:center;
+        margin-bottom:30px;
+        font-weight:600;
+    }
+
+    /* Input Group */
+    .input-group{
+        position:relative;
+        margin-bottom:25px;
+    }
+
+    .input-group input{
+        width:100%;
+        padding:12px 40px 12px 10px;
+        border:none;
+        outline:none;
+        border-radius:8px;
+        background:rgba(255,255,255,0.2);
+        color:white;
+        font-size:14px;
+    }
+
+    .input-group label{
+        position:absolute;
+        left:10px;
+        top:12px;
+        font-size:14px;  
+        transition:0.3s;
+        pointer-events:none;
+        color:#ddd;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label{
+        top:-18px;
+        left:5px;
+        font-size:14px;  
+        color:#fff;
+    }
+
+    /* Password Toggle */
+    .toggle-password{
+        position:absolute;
+        right:10px;
+        top:12px;
+        cursor:pointer;
+    }
+
+    /* Button */
+    .login-btn{
+        width:100%;
+        padding:12px;
+        border:none;
+        border-radius:8px;
+        background:white;
+        color:#764ba2;
+        font-weight:600;
+        cursor:pointer;
+        transition:0.3s;
+    }
+
+    .login-btn:hover{
+        background:#ddd;
+    }
+
+    /* Divider */
+    .divider{
+        text-align:center;
+        margin:20px 0;
+        font-size:13px;
+        color:#eee;
+    }
+
+    /* Social Buttons */
+    .social-login{
+        display:flex;
+        gap:10px;
+    }
+
+    .social-login button{
+        flex:1;
+        padding:10px;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+        font-size:13px;
+        font-weight:500;
+    }
+
+    .google{
+        background:white;
+        color:black;
+    }
+
+    .github{
+        background:black;
+        color:white;
+    }
+
+    /* Footer */
+    .footer{
+        text-align:center;
+        margin-top:20px;
+        font-size:13px;
+    }
+
+    .footer a{
+        color:white;
+        text-decoration:none;
+        font-weight:500;
+    }
+    .error{
+        font-size:12px;
+        color:#ffb3b3;
+        margin-top:5px;
+    }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Login</h2>
+
+    <form id="loginForm" method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="email" id="email" name="email" placeholder=" " required>
+            <label>Email</label>
+            {% if registered  %}
+            <div class="error" id="emailError">{{registered}}</div>
+            {% endif %}
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="password" name="password" placeholder=" " required>
+            <label>Password</label>
+            <span class="toggle-password" onclick="togglePassword()">👁</span>
+            {% if check_pass %}
+                <div class="error" id="passwordError">{{check_pass}}</div>
+            {% endif %}
+            
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <div class="divider">or continue with</div>
+
+    <div class="social-login">
+        <button class="google">Google</button>
+        <button class="github">GitHub</button>
+    </div>
+
+    <div class="footer">
+        Don't have an account? <a href={% url "regis_form" %}>Sign Up</a>
+    </div>
+</div>
+
+<script>
+function togglePassword(){
+    const password = document.getElementById("password");
+    password.type = password.type === "password" ? "text" : "password";
+}
+
+document.getElementById("loginForm").addEventListener("submit", function(e){
+    
+
+    let valid = true;
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+
+    document.getElementById("emailError").innerText="";
+    document.getElementById("passwordError").innerText="";
+
+    if(!email.value.includes("@")){
+        document.getElementById("emailError").innerText="Enter valid email address";
+        valid = false;
+    }
+
+    if(password.value.length < 6){
+        document.getElementById("passwordError").innerText="Password must be at least 6 characters";
+        valid = false;
+    }
+
+    if(!valid){
+        e.preventDefault();
+    }
+});
+</script>
+
+</body>
+</html>
