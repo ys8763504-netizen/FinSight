@@ -1,1 +1,1 @@
-web: gunicorn FinSight.wsgi
+web: gunicorn finsight.wsgi
