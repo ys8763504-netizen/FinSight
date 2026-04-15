@@ -101,3 +101,122 @@ margin-right:10px;
 .delete{
 color:red;
 }
+
+@media (max-width: 600px) {
+
+    .budget-container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    /* Stack layout */
+    .budget-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .budget-form,
+    .budget-summary {
+        width: 100%;
+    }
+
+    /* Form */
+    .input-group input {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .create-btn {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    /* Cards */
+    .budget-summary {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .card {
+        text-align: center;
+        padding: 15px;
+    }
+
+    /* Table → scroll */
+    .budget-table table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th, td {
+        font-size: 13px;
+        padding: 8px;
+    }
+}
+@media (min-width: 601px) and (max-width: 992px) {
+
+    .budget-container {
+        padding: 20px;
+    }
+
+    .budget-wrapper {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .budget-form,
+    .budget-summary {
+        width: 100%;
+    }
+
+    .budget-summary {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .card {
+        text-align: center;
+    }
+
+    th, td {
+        font-size: 14px;
+    }
+}
+@media (min-width: 993px) and (max-width: 1200px) {
+
+    .budget-container {
+        max-width: 95%;
+        margin: auto;
+    }
+
+    .budget-wrapper {
+        gap: 20px;
+    }
+
+    .budget-form {
+        width: 55%;
+    }
+
+    .budget-summary {
+        width: 40%;
+    }
+}
+@media (min-width: 1200px) {
+
+    .budget-container {
+        max-width: 1100px;
+        margin: auto;
+    }
+}

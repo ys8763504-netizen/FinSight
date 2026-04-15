@@ -22,6 +22,7 @@
                 <li><a href="{% url "about_page" %}">About</a></li>
                 <li><a href="{% url "feedback" %}">Contect & FeedBack</a></li>
                 <li><a href={% url "profile_page" %}>Profile</a></li>
+                <li><a href="{% url 'ai_insights' %}">View AI Insights</a></li>
                 
                 {% if login %}
                 <li><button type="button" class="btn-primary"><a href={% url "user_logout" %}>LogOut</a></button></li>
@@ -39,6 +40,7 @@
     {% block profile_content %}{% endblock profile_content %}
     {% block dashboard %}{% endblock dashboard %}
     {% block feedback %}{% endblock feedback %}
+    {% block ai %}{% endblock ai %}
 
     <!-- Footer Section -->
 <footer class="footer">
@@ -93,6 +95,7 @@
     <!-- FontAwesome CDN for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="{% static "JS_Files/script_index.js" %}"></script>
+{% block script %}{% endblock %}
 </body>
 
 </html>

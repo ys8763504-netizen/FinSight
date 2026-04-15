@@ -126,7 +126,8 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-GEMINI_API_KEY = "AIzaSyAABBGIQUkiUgDrJmG3Zj_rG1ePmKkmTkM"
+import os
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

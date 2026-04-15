@@ -136,3 +136,166 @@ cursor:pointer;
 .download-section button:hover{
 background:#0056b3;
 }
+/* =========================
+   LARGE DEVICES (DESKTOP)
+   ========================= */
+@media (min-width: 1025px) {
+    .report-container {
+        padding: 30px 60px;
+    }
+
+    .summary-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .report-table table {
+        font-size: 16px;
+    }
+}
+
+
+/* =========================
+   TABLETS (768px - 1024px)
+   ========================= */
+@media (max-width: 1024px) and (min-width: 768px) {
+
+    .report-container {
+        padding: 20px 30px;
+    }
+
+    .summary-cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .report-table {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 600px;
+    }
+}
+
+
+/* =========================
+   LARGE MOBILE (481px - 767px)
+   ========================= */
+@media (max-width: 767px) {
+
+    .report-container {
+        padding: 15px;
+    }
+
+    .summary-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .card {
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    .download-section {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .report-table {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 550px;
+        font-size: 14px;
+    }
+}
+
+
+/* =========================
+   SMALL MOBILE (<=480px)
+   ========================= */
+@media (max-width: 480px) {
+
+    .report-container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .subtitle {
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .summary-cards {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .card {
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .card h3 {
+        font-size: 14px;
+    }
+
+    .card p {
+        font-size: 16px;
+    }
+
+    .download-section {
+        flex-direction: column;
+    }
+
+    select, button {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .report-table {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 500px;
+        font-size: 13px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    .danger, .safe {
+        font-size: 12px;
+    }
+}

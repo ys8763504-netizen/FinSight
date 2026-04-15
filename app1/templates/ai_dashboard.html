@@ -1,0 +1,77 @@
+{% extends "nav.html" %}
+{% load static %}
+
+{% block ai %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="{% static "css/ai_dash.css" %}">
+<div class="container">
+
+    <h1>AI Financial Insights</h1>
+
+    <!-- Stats -->
+    <div class="grid">
+        <div class="stat">
+            <h2>₹{{ total }}</h2>
+            <p>Total Spending</p>
+        </div>
+
+        <div class="stat">
+            <h2>{{ categories|length }}</h2>
+            <p>Total Categories</p>
+        </div>
+
+        <div class="stat">
+            <h2>
+                {% for key, value in categories.items %}
+                    {% if forloop.first %}{{ key }}{% endif %}
+                {% endfor %}
+            </h2>
+            <p>Top Category</p>
+        </div>
+    </div>
+
+    <!-- AI Insights -->
+    <div class="card">
+        <h3>AI Insights</h3>
+        <p class="insights">{{ insights }}</p>
+    </div>
+
+    <!-- Category -->
+    <div class="card">
+        <h3>Category Breakdown</h3>
+        {% for key, value in categories.items %}
+            <div style="display:flex; justify-content:space-between;">
+                <span>{{ key }}</span>
+                <span>₹{{ value }}</span>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<!-- 💬 Floating Button -->
+<button class="chat-btn" onclick="toggleChat()">
+    <i class="fas fa-robot"></i>
+</button>
+
+<!-- 🤖 Chat Popup -->
+<div class="chat-popup" id="chatPopup">
+    <div class="chat-header">
+        <span>FinSight AI 🤖</span>
+        
+    </div>
+
+    <div class="chat-box" id="chatBox"></div>
+
+    <div class="input-box">
+        <input type="text" id="userInput" placeholder="Ask about your spending...">
+        <button onclick="sendMessage()">➤</button>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+<script src="{% static 'JS_Files/ai_dash.js' %}"></script>
+{% endblock %}

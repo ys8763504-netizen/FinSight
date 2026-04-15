@@ -806,3 +806,126 @@ def delete_goal(request, id):
 
     goal.delete()
     return redirect("goal_page")
+
+from .utils.ai_insights import generate_insights
+
+from .models import Goal
+
+def ai_dashboard(request):
+    if 'login' in request.session:
+        user_id = request.session.get('user_id')
+
+        expenses = Expense.objects.filter(user_id=user_id)
+        budgets = Budget.objects.filter(user_id=user_id)
+        goals = Goal.objects.filter(user_id=user_id)
+
+        # Total expense
+        total = expenses.aggregate(total=Sum('amount'))['total'] or 0
+
+        # Category data
+        category_data = expenses.values('category').annotate(total=Sum('amount'))
+        categories = {item['category']: item['total'] for item in category_data}
+
+        # Budget data
+        budget_data = {b.month: b.amount for b in budgets}
+
+        # Goals data
+        goals_data = [
+            {
+                "title": g.title,
+                "target": g.target_amount,
+                "saved": g.saved_amount,
+                "remaining": g.target_amount - g.saved_amount
+            }
+            for g in goals
+        ]
+
+        # Expense list
+        expense_list = list(expenses.values('title', 'amount', 'category'))
+
+        insights = generate_insights(
+            expense_list,
+            total,
+            categories,
+            budget_data,
+            goals_data
+        )
+        insights = insights.replace("**","")
+        
+        insights = insights.replace("*","•")
+        return render(request, 'ai_dashboard.html', {
+            'insights': insights,
+            'total': total,
+            'categories': categories,
+            'login' : True
+        })
+    else:
+        return render(request, 'index.html',{'loged_out':'you have to login first'})
+from .utils.ai_chat import generate_chat_reply
+from django.http import JsonResponse
+import json
+from .utils.ai_insights import generate_insights
+
+def ai_chat(request):
+    if request.method == "POST":
+
+        try:
+            data = json.loads(request.body)
+            user_message = data.get("message")
+
+            
+            user_id = request.session.get("user_id")
+
+            if not user_id:
+                return JsonResponse({"reply": "Please login first."})
+
+           
+            expenses = Expense.objects.filter(user_id=user_id)
+
+            total_expense = expenses.aggregate(
+                total=Sum('amount')
+            )['total'] or 0
+
+            category_data = expenses.values('category').annotate(
+                total=Sum('amount')
+            )
+
+            categories = {
+                item['category']: item['total']
+                for item in category_data
+            }
+
+            
+            budgets = Budget.objects.filter(user_id=user_id)
+
+            total_budget = budgets.aggregate(
+                total=Sum('amount')
+            )['total'] or 0
+
+           
+            goals = Goal.objects.filter(user_id=user_id)
+
+            goal_data = []
+            for g in goals:
+                goal_data.append({
+                    "title": g.title,
+                    "target": float(g.target_amount),
+                    "saved": float(g.saved_amount),
+                    "completed": g.is_completed
+                })
+
+        
+            reply = generate_chat_reply(
+                user_message,
+                total_expense,
+                categories,
+                total_budget,
+                goal_data
+            )
+
+            return JsonResponse({"reply": reply})
+
+        except Exception as e:
+            return JsonResponse({"reply": f"Error: {str(e)}"})
+
+    return JsonResponse({"reply": "Invalid request"})

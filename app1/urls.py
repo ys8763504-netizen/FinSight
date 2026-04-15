@@ -58,4 +58,7 @@ urlpatterns = [
     path("add_goal/", views.add_goal, name="add_goal"),
     path("add_saving/<int:id>/", views.add_saving, name="add_saving"),
     path("delete_goal/<int:id>/", views.delete_goal, name="delete_goal"),
+
+    path('ai-insights/', views.ai_dashboard, name='ai_insights'),
+    path('ai-chat/', views.ai_chat, name='ai_chat'),
 ]
