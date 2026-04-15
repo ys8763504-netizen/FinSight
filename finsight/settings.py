@@ -127,10 +127,10 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-from dotenv import load_dotenv
+
 import os
 
-load_dotenv(override=True)
+
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 SECRET_KEY = os.getenv("SECRET_KEY")
 print("DEBUG KEY:", GROQ_API_KEY)
