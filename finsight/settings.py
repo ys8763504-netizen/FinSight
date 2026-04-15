@@ -126,8 +126,13 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
