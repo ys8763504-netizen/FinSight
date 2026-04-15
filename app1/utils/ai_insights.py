@@ -1,49 +1,43 @@
-from openai import OpenAI
+import requests
 from django.conf import settings
-
-client = OpenAI(
-    api_key=settings.GROQ_API_KEY,
-    base_url="https://api.groq.com/openai/v1"
-)
 
 def generate_insights(expenses, total, categories, budgets, goals):
     try:
+
         prompt = f"""
-        You are a smart financial assistant.
+You are a smart financial assistant.
 
-        User Data:
+Total Spending: ₹{total}
+Categories: {categories}
+Budgets: {budgets}
+Goals: {goals}
+Expenses: {expenses}
 
-        Total Spending: ₹{total}
+Give financial insights with tips and emojis.
+"""
 
-        Category Spending:
-        {categories}
+        url = "https://api.groq.com/openai/v1/chat/completions"
 
-        Budgets:
-        {budgets}
+        headers = {
+            "Authorization": f"Bearer {settings.GROQ_API_KEY}",
+            "Content-Type": "application/json"
+        }
 
-        Goals:
-        {goals}
+        data = {
+            "model": "llama-3.3-70b-versatile",
+            "messages": [
+                {"role": "user", "content": prompt}
+            ]
+        }
 
-        Expense List:
-        {expenses}
+        response = requests.post(url, headers=headers, json=data)
 
-        Instructions:
-        - Answer based on user data
-        - Give smart insights
-        - Compare expenses with budgets
-        - Analyze goals progress
-        - Give suggestions to save money
-        - If user asks a question, answer accordingly
-        - Keep response clean and readable
-        Give insights with emojis and short bullet points also currency is rupee.
-        """
+        result = response.json()
 
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": prompt}]
-        )
-
-        return response.choices[0].message.content
+        if "choices" in result:
+            return result["choices"][0]["message"]["content"]
+        else:
+            return f"API Error: {result}"
 
     except Exception as e:
         return f"Error: {str(e)}"

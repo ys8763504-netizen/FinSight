@@ -1,10 +1,9 @@
-# Django
+# Python cache
 __pycache__/
-db.sqlite3
 *.pyc
 
-# Environment variables
+# Environment
 .env
 
-# VS Code
-.vscode/
+# DB
+db.sqlite3

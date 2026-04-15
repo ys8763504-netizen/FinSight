@@ -1,38 +1,46 @@
-from openai import OpenAI
+import requests
 from django.conf import settings
 
-client = OpenAI(
-    api_key=settings.GROQ_API_KEY,
-    base_url="https://api.groq.com/openai/v1"
-)
-
-def generate_chat_reply( user_message,total_expense,categories,total_budget,goal_data):
+def generate_chat_reply(user_message, total_expense, categories, total_budget, goal_data):
     try:
+
         prompt = f"""
-        You are a smart AI assistant inside a finance app.
+You are a smart finance AI assistant.
+RULES:
+- If the user greets (hello, hi, hey) → respond politely and briefly, DO NOT give financial advice.
+- If user asks a finance question → use data and give insights.
+- If user question is not related to finance → reply politely and guide them back.
 
-        User question:
-        {user_message}
 
-        User financial data:
-        - Total Spending: {total_expense}
-        - Categories: {categories}
-        - Total Budget :{total_budget}
-        - Goal data : {goal_data}
+User question:
+{user_message}
 
-        Instructions:
-        - Answer based on the user's question.
-        - If it's finance-related → use the data.
-        - If it's general → answer normally.
-        - Keep it short and helpful.
-        """
+User financial data:
+- Total Spending: {total_expense}
+- Categories: {categories}
+- Total Budget: {total_budget}
+- Goal data: {goal_data}
 
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": prompt}]
-        )
+Give short, helpful financial advice.
+"""
 
-        return response.choices[0].message.content
+        url = "https://api.groq.com/openai/v1/chat/completions"
+
+        headers = {
+            "Authorization": f"Bearer {settings.GROQ_API_KEY}",
+            "Content-Type": "application/json"
+        }
+
+        data = {
+            "model": "llama-3.3-70b-versatile",
+            "messages": [
+                {"role": "user", "content": prompt}
+            ]
+        }
+
+        response = requests.post(url, headers=headers, json=data)
+
+        return response.json()["choices"][0]["message"]["content"]
 
     except Exception as e:
         return f"Error: {str(e)}"
