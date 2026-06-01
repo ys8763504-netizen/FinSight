@@ -4,6 +4,10 @@ FinSight is a modern web-based expense management system built using Django. It 
 
 ---
 
+# 💰 FinSight Demo - https://finsight-2dzm.onrender.com/
+
+---
+
 ## 🚀 Features
 
 * 👤 User Registration & Login
