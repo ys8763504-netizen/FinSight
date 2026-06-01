@@ -169,17 +169,14 @@ th{
 <div id="expenses" class="table-box" style="display:none;">
 <h2>Expenses</h2>
 <table>
-<tr><th>User</th><th>Title</th><th>Amount</th><th>Date</th><th>Action</th></tr>
+<tr><th>User</th><th>Title</th><th>Amount</th><th>Date</th></tr>
 {% for e in expenses %}
 <tr>
 <td>{{ e.user_id }}</td>
 <td>{{ e.title }}</td>
 <td>{{ e.amount }}</td>
 <td>{{ e.date }}</td>
-<td>
-<a href="{% url 'admin_edit_expense' e.id %}" class="edit">Edit</a> |
-<a href="{% url 'admin_delete_expense' e.id %}" class="delete" onclick="return confirmDelete()">Delete</a>
-</td>
+
 </tr>
 {% endfor %}
 </table>
@@ -189,17 +186,13 @@ th{
 <div id="budgets" class="table-box" style="display:none;">
 <h2>Budgets</h2>
 <table>
-<tr><th>User</th><th>Title</th><th>Amount</th><th>Month</th><th>Action</th></tr>
+<tr><th>User</th><th>Title</th><th>Amount</th><th>Month</th></tr>
 {% for b in budgets %}
 <tr>
 <td>{{ b.user_id }}</td>
 <td>{{ b.title }}</td>
 <td>{{ b.amount }}</td>
 <td>{{ b.month }}</td>
-<td>
-<a href="{% url 'admin_edit_budget' b.id %}" class="edit">Edit</a> |
-<a href="{% url 'admin_delete_budget' b.id %}" class="delete" onclick="return confirmDelete()">Delete</a>
-</td>
 </tr>
 {% endfor %}
 </table>
